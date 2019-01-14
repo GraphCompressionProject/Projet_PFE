@@ -4,24 +4,25 @@
 
 using namespace std ;
 
-Ik2_Trees::Ik2_Trees(int k,int nbT, int n,bool diff, int A [10][10][10])
+Ik2_Trees::Ik2_Trees(int k,int nbT, int n,bool diff, vector<vector<boost::dynamic_bitset<>>> A )
     :k(k),nbT(nbT)
 {
     prof = logk(k,n);
     if(!diff) build_from_matrix(n,1,0,0,A);
     else {
         //Building the matrix of differences
-        int B [10][10][10];
+		vector<vector<boost::dynamic_bitset<>>> B ;
         CalcDiff(A,B);
         // Building the Ik2Tree
         build_from_matrix(n,1,0,0,B);
     }
+	cout << "here1" << endl;
      BuildTree();
      T.clear();
      T.shrink_to_fit();
 }
 
-void Ik2_Trees::CalcDiff(int A [10][10][10],int B[10][10][10]){
+void Ik2_Trees::CalcDiff(vector<vector<boost::dynamic_bitset<>>> A , vector<vector<boost::dynamic_bitset<>>> B){
     for(int i=0;i<10;i++){
         for(int j=0;j<10;j++){
             for(int m=0;m<10;m++){
@@ -32,7 +33,7 @@ void Ik2_Trees::CalcDiff(int A [10][10][10],int B[10][10][10]){
     }
 }
 
-boost::dynamic_bitset<> Ik2_Trees::build_from_matrix(int n,int l,int p,int q, int A [10][10][10]){
+boost::dynamic_bitset<> Ik2_Trees::build_from_matrix(int n,int l,int p,int q, vector<vector<boost::dynamic_bitset<>>> A ){
   
     std::vector<boost::dynamic_bitset<>> C{0};
     boost::dynamic_bitset<> C3{0};
@@ -42,11 +43,13 @@ boost::dynamic_bitset<> Ik2_Trees::build_from_matrix(int n,int l,int p,int q, in
         for(int j=0;j<k;j++){
             if (l == prof) { //leaf node
                 for(int m=0;m<nbT;m++){
+					cout << "here3" << endl;
                     if(C.size()<m+1) C.push_back(C3);
                     if(A[m][p+i][q+j] == 0) C[m].push_back(false);
                     else C[m].push_back(true);
                 }
             }else{
+				cout << "here2" << endl;
                     boost::dynamic_bitset<> C4{0};
                     C4 = build_from_matrix(n/k,l+1,p+i*(n/k),q+j*(n/k),A)  ;
                     for(boost::dynamic_bitset<>::size_type m=0;m<C4.size();m++){
@@ -99,14 +102,16 @@ bool Ik2_Trees::all_null_C(std::vector<boost::dynamic_bitset<>> Ctmp){
 }
 
 void Ik2_Trees::BuildTree(){
-
+	cout << "here4" << endl;
     int m = T.size();
 
     for(int j=0;j<T[0].size();j++){
+		cout << "here5" << endl;
         _L.push_back(T[0][j]);
     }
 
     for(int i=m-1;i>=1;i--){
+		cout << "here6" << endl;
         for(int j=0;j<T[i].size();j++){
             _T.push_back(T[i][j]);
         }

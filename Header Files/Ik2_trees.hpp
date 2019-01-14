@@ -4,6 +4,8 @@
 #include <ctgmath>
 #include <iostream>
 
+using std::vector;
+
 class Ik2_Trees{
     private:
         std::vector<boost::dynamic_bitset<> > T;
@@ -15,11 +17,11 @@ class Ik2_Trees{
 
     public:
 
-        Ik2_Trees(int k,int nbT, int n,bool diff, int A [10][10][10]);
+        Ik2_Trees(int k,int nbT, int n,bool diff, vector<vector<boost::dynamic_bitset<>>> A);
 
-        void CalcDiff(int A [10][10][10],int B[10][10][10]);
+        void CalcDiff(vector<vector<boost::dynamic_bitset<>>> A , vector<vector<boost::dynamic_bitset<>>> B);
         // function that creates a T list for each level
-        boost::dynamic_bitset<> build_from_matrix(int n,int l,int p,int q, int A [10][10][10]);
+        boost::dynamic_bitset<> build_from_matrix(int n,int l,int p,int q, vector<vector<boost::dynamic_bitset<>>> A );
         // Concatenate the T lists in 2 lists T and L
         void BuildTree();
         /*
